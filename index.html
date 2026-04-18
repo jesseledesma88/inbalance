@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InBalance Therapies | Counselling & Equine Therapy</title>
+    
+    <!-- Google Fonts for Brand Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           GLOBAL VARIABLES (Map these to Elementor Global Colors/Fonts)
+           ========================================================================== */
+        :root {
+            --c-light: #f0e7d6; /* 5,7,15,0 */
+            --c-mid: #d8cebb;   /* 15,15,26,0 */
+            --c-dark: #433a24;  /* 57,59,81,57 */
+            
+            --f-heading: 'Cormorant Garamond', serif; /* Fallback for Artisan */
+            --f-body: 'DM Sans', sans-serif;
+            
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* ==========================================================================
+           RESET & BASE STYLES
+           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: var(--f-body);
+            background-color: var(--c-light);
+            color: var(--c-dark);
+            line-height: 1.6;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: var(--f-heading);
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+        p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+        
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        
+        img { max-width: 100%; height: auto; display: block; }
+
+        /* ==========================================================================
+           LAYOUT & UTILITIES
+           ========================================================================== */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section { padding: 6rem 0; }
+        
+        .text-center { text-align: center; }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-family: var(--f-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border: 1px solid var(--c-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-solid { background-color: var(--c-dark); color: var(--c-light); }
+        .btn-solid:hover { background-color: transparent; color: var(--c-dark); }
+        
+        .btn-outline { background-color: transparent; color: var(--c-dark); }
+        .btn-outline:hover { background-color: var(--c-dark); color: var(--c-light); }
+        
+        .btn-light-outline { border-color: var(--c-light); color: var(--c-light); }
+        .btn-light-outline:hover { background-color: var(--c-light); color: var(--c-dark); }
+
+        /* Animation Classes */
+        .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ==========================================================================
+           HEADER / NAVIGATION
+           ========================================================================== */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: var(--transition);
+        }
+        
+        header.scrolled { background-color: rgba(240, 231, 214, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 1rem 0; }
+
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        
+        .nav-left, .nav-right { flex: 1; }
+        .nav-right { display: flex; justify-content: flex-end; }
+        .nav-center { flex: 1; text-align: center; }
+
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links a:hover { color: #8a7a58; }
+
+        .logo { font-family: var(--f-heading); font-size: 1.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; line-height: 1; }
+        .logo span { display: block; font-size: 0.9rem; letter-spacing: 4px; font-weight: 400; }
+
+        /* ==========================================================================
+           HERO SECTION (Parallax)
+           ========================================================================== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to right, rgba(240, 231, 214, 0.85) 0%, rgba(240, 231, 214, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .hero-content { position: relative; z-index: 10; max-width: 600px; padding-top: 5rem; }
+        .hero h1 { color: var(--c-dark); margin-bottom: 1.5rem; }
+        .hero p { font-size: 1.25rem; margin-bottom: 2.5rem; }
+        
+        .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        /* ==========================================================================
+           LOGOS / ACCREDITATIONS BAR
+           ========================================================================== */
+        .accreditations { background-color: var(--c-mid); padding: 2rem 0; border-top: 1px solid rgba(67, 58, 36, 0.1); border-bottom: 1px solid rgba(67, 58, 36, 0.1); }
+        .acc-grid { display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 2rem; opacity: 0.7; }
+        .acc-item { font-family: var(--f-heading); font-size: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
+
+        /* ==========================================================================
+           ABOUT SECTION
+           ========================================================================== */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .about-img { position: relative; }
+        .about-img img { border-radius: 4px; box-shadow: -20px 20px 0 var(--c-mid); }
+
+        /* ==========================================================================
+           SERVICES SECTION
+           ========================================================================== */
+        .services-section { background-color: #f6f1e9; } /* Slightly lighter than c-light for contrast */
+        .services-header { text-align: center; max-width: 700px; margin: 0 auto 4rem auto; }
+        
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .service-card {
+            background: var(--c-light);
+            padding: 3rem 2rem;
+            border: 1px solid var(--c-mid);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(67, 58, 36, 0.08); border-color: var(--c-dark); }
+        
+        .service-card h3 { font-size: 1.5rem; border-bottom: 1px solid var(--c-mid); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .service-card ul { margin-bottom: 2rem; flex-grow: 1; }
+        .service-card li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; font-size: 0.95rem; }
+        .service-card li::before { content: '—'; position: absolute; left: 0; color: var(--c-dark); }
+        
+        .service-link { font-family: var(--f-heading); font-style: italic; font-size: 1.2rem; margin-top: auto; display: inline-block; }
+        .service-link:hover { padding-left: 10px; }
+
+        /* ==========================================================================
+           WHY CHOOSE US (Dark Section)
+           ========================================================================== */
+        .why-us { background-color: var(--c-dark); color: var(--c-light); padding: 8rem 0; }
+        .why-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; }
+        
+        .why-feature { margin-bottom: 2rem; }
+        .why-feature h4 { color: var(--c-mid); font-family: var(--f-body); text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 0.5rem; }
+        .why-feature p { font-size: 1.05rem; opacity: 0.9; }
+
+        /* ==========================================================================
+           TESTIMONIALS / EXPERIENCE
+           ========================================================================== */
+        .experience { text-align: center; }
+        .exp-content { max-width: 800px; margin: 0 auto; }
+        .exp-list { text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 3rem 0; }
+        .exp-list li { background: #fff; padding: 2rem; border-left: 4px solid var(--c-mid); }
+        
+        .testimonial { font-family: var(--f-heading); font-size: 1.8rem; font-style: italic; margin-top: 4rem; position: relative; padding: 2rem 0; }
+        .testimonial::before { content: '"'; font-size: 4rem; position: absolute; top: -1rem; left: 50%; transform: translateX(-50%); color: var(--c-mid); opacity: 0.5; }
+
+        /* ==========================================================================
+           CTA / NEXT STEP
+           ========================================================================== */
+        .cta-section { background-color: var(--c-mid); text-align: center; padding: 6rem 0; }
+        .cta-content { max-width: 700px; margin: 0 auto; }
+        .cta-btns { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+
+        /* ==========================================================================
+           FOOTER
+           ========================================================================== */
+        footer { background-color: var(--c-dark); color: var(--c-light); padding: 4rem 0 2rem 0; }
+        .footer-grid { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 4rem; border-bottom: 1px solid rgba(240, 231, 214, 0.2); padding-bottom: 3rem; margin-bottom: 2rem;}
+        
+        .footer-col h5 { color: var(--c-mid); text-transform: uppercase; font-family: var(--f-body); letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+        .footer-col a:hover { color: var(--c-mid); }
+        
+        .footer-bottom { text-align: center; font-size: 0.85rem; opacity: 0.6; }
+
+        /* ==========================================================================
+           MOBILE RESPONSIVENESS
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .about-grid, .why-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            h1 { font-size: 2.8rem; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; /* In Elementor, replace with hamburger menu */ }
+            .nav-right { display: none; }
+            .nav-center { text-align: left; }
+            .services-grid, .exp-list, .footer-grid { grid-template-columns: 1fr; }
+            .hero-content { padding-top: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header id="site-header">
+        <div class="container nav-container">
+            <div class="nav-left">
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-center">
+                <a href="#" class="logo">
+                    INBALANCE
+                    <span>THERAPIES</span>
+                </a>
+            </div>
+            
+            <div class="nav-right">
+                <a href="#contact" class="btn btn-outline">Contact Us</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="hero.mp4" type="video/mp4">
+        </video>
+        <div class="container">
+            <div class="hero-content fade-up">
+                <h1>Find Balance. Reconnect with Your Body, Mind & Emotions.</h1>
+                <p>InBalance Therapies offers evidence-based counselling, somatic therapy, and equine-facilitated experiences designed to help you feel grounded, resilient, and fully present. Our trauma-informed, body-aware approach supports lasting change—beyond strategies or talk alone.</p>
+                <div class="hero-btns">
+                    <a href="#contact" class="btn btn-solid">Start Your Journey</a>
+                    <a href="#services" class="btn btn-outline">Explore Equine Therapy</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accreditations/Logos Bar -->
+    <div class="accreditations">
+        <div class="container acc-grid fade-up">
+            <div class="acc-item">PACFA Registered</div>
+            <div class="acc-item">NDIS Provider</div>
+            <div class="acc-item">Groundwork Therapy</div>
+            <div class="acc-item">Radix Therapy</div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container about-grid">
+            <div class="about-text fade-up">
+                <h2>About InBalance Therapies</h2>
+                <p>InBalance Therapies is a professional mental health service offering counselling, psychotherapy, somatic approaches, and equine-facilitated therapy.</p>
+                <p>Each service is delivered with a trauma-informed, nervous-system aware approach, creating a safe, structured environment where individuals, teens, and groups can reconnect with themselves and find clarity, calm, and confidence.</p>
+                <p>InBalance Therapies focuses on experiential, body-based, and relational methods that support individuals to integrate real change.</p>
+                <br>
+                <a href="#contact" class="btn btn-outline">Enquire About Availability</a>
+            </div>
+            <div class="about-img fade-up">
+                <!-- Placeholder for Ashley's photo or a therapy setting -->
+                <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ashley Barnard - Therapist">
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section services-section">
+        <div class="container">
+            <div class="services-header fade-up">
+                <h2>Our Services</h2>
+                <p>We offer specialized pathways to healing. Sessions are available in-person in Blackwood SA, outdoors for Equine therapy, or via online telehealth.</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card fade-up">
+                    <h3>Counselling & Psychotherapy</h3>
+                    <p>Whether you’re feeling anxious, overwhelmed, or stuck in recurring patterns, our talk therapy helps you:</p>
+                    <ul>
+                        <li>Regulate emotions and stress</li>
+                        <li>Build self-awareness and resilience</li>
+                        <li>Shift unhelpful patterns in thought, behaviour, and relationships</li>
+                    </ul>
+                    <a href="#" class="service-link">Learn More &rarr;</a>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card fade-up" style="transition-delay: 0.1s;">
+                    <h3>Equine-Facilitated Therapy</h3>
+                    <p>Ground-based, trauma-informed sessions with horses to support:</p>
+                    <ul>
+                        <li>Emotional regulation and self-trust</li>
+                        <li>Nervous system regulation and calm</li>
+                        <li>Reconnection with your body, intuition, and inner wisdom</li>
+                    </ul>
+                    <p><em>Suitable for adults, teens, and groups—no horse experience required.</em></p>
+                    <a href="#" class="service-link">Learn More &rarr;</a>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card fade-up" style="transition-delay: 0.2s;">
+                    <h3>Somatic / Radix Therapy</h3>
+                    <p>Body-centred psychotherapy that helps you:</p>
+                    <ul>
+                        <li>Release tension and habitual holding patterns</li>
+                        <li>Restore vitality and natural energy flow</li>
+                        <li>Strengthen the mind-body-emotion connection</li>
+                    </ul>
+                    <p><em>Ideal for stress relief, emotional insight, and lasting personal growth.</em></p>
+                    <a href="#" class="service-link">Learn More &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="section why-us">
+        <div class="container why-grid">
+            <div class="why-title fade-up">
+                <h2>A Unique, Integrated Approach</h2>
+                <p>Why choose InBalance Therapies for your healing journey?</p>
+                <br>
+                <a href="#contact" class="btn btn-light-outline">Start Your Journey &rarr;</a>
+            </div>
+            
+            <div class="why-features fade-up">
+                <div class="why-feature">
+                    <h4>Trauma-Informed & Nervous-System Aware</h4>
+                    <p>Supportive sessions designed for safety, regulation, and lasting resilience.</p>
+                </div>
+                <div class="why-feature">
+                    <h4>Embodied & Experiential</h4>
+                    <p>Insights are felt, not just understood, through somatic and equine-guided experiences.</p>
+                </div>
+                <div class="why-feature">
+                    <h4>Integrated Mind & Body Support</h4>
+                    <p>Counselling, somatic therapy, and equine sessions can work together to support growth from every angle.</p>
+                </div>
+                <div class="why-feature">
+                    <h4>Safe & Accessible</h4>
+                    <p>Ground-based, ethical sessions suitable for all experience levels, offered in-person or online.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience / Testimonials Section -->
+    <section class="section experience">
+        <div class="container exp-content fade-up">
+            <h2>What Clients Experience</h2>
+            <p>Therapy is a personal journey, but clients working with InBalance Therapies often notice profound shifts in their daily lives.</p>
+            
+            <ul class="exp-list">
+                <li>Greater calm, grounding, and emotional resilience</li>
+                <li>Increased awareness of needs, boundaries, and relational patterns</li>
+                <li>Stronger connection to self, body, and intuition</li>
+                <li>Practical tools for sustainable change and daily wellbeing</li>
+            </ul>
+
+            <div class="testimonial fade-up">
+                "Working with Ashley and the horses allowed me to feel safe in my body again. The somatic approach shifted things that years of talk therapy couldn't reach."
+                <div style="font-family: var(--f-body); font-size: 1rem; font-style: normal; margin-top: 1rem; color: var(--c-dark);">— Client Experience</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section" id="contact">
+        <div class="container cta-content fade-up">
+            <h2>Take the Next Step</h2>
+            <p>You don’t need a diagnosis, a crisis, or prior therapy experience to begin. All it takes is a willingness to notice and explore what’s present.</p>
+            <div class="cta-btns">
+                <a href="#" class="btn btn-solid">Book Your Session</a>
+                <a href="#" class="btn btn-outline">Enquire About Availability</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo" style="color: var(--c-light);">
+                        INBALANCE
+                        <span>THERAPIES</span>
+                    </a>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">Ashley Barnard - MCP</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#">Counselling & Psychotherapy</a></li>
+                        <li><a href="#">Equine Facilitated Therapy</a></li>
+                        <li><a href="#">Somatic (Radix) Therapy</a></li>
+                        <li><a href="#">Online / Telehealth Sessions</a></li>
+                        <li><a href="#">Groups & Organisations</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h5>Contact</h5>
+                    <ul>
+                        <li>20 Coromandel Parade,<br>Blackwood SA 5051</li>
+                        <li><a href="tel:0484195545">0484 195 545</a></li>
+                        <li><a href="mailto:contact@ashleybarnard.com.au">contact@ashleybarnard.com.au</a></li>
+                        <li style="margin-top: 1rem;">
+                            <a href="#">Instagram</a> | <a href="#">Facebook</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 InBalance Therapies. PACFA Registered (123456). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Scroll Effects -->
+    <script>
+        // Header scroll effect
+        const header = document.getElementById('site-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for fade-up animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
